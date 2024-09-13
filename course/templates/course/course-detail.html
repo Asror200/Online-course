@@ -1,0 +1,34 @@
+{% extends 'course/base/base.html' %}
+{% load static %}
+<!-- Category Start -->
+
+{% block category_detail %}
+    <!-- Courses Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">Welcome</h5>
+                <h1>Videos</h1>
+            </div>
+            <div class="row">
+                {% for video in videos %}
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="rounded overflow-hidden mb-2">
+                            <video width="400" controls>
+                                <source src="{{ video.file.url }}" type="video/mp4">
+                                Your browser does not support HTML video.
+                            </video>
+                            <div class="bg-secondary p-4">
+
+                                <a class="h5" href="{% url 'video_detail' video.id %}">{{ video.title }}</a>
+
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+    <!-- Courses End -->
+{% endblock %}

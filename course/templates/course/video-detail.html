@@ -1,0 +1,39 @@
+{% extends 'course/base/base.html' %}
+{% load static %}
+<!-- Category Start -->
+
+{% block video_detail %}
+    <!-- Courses Start -->
+ <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">Welcome</h5>
+                <h1>Hello</h1>
+            </div>
+            <div class="video-container">
+
+                <div class="flex-grow-1">
+                    <video controls width="100%">
+                        <source src="{{ video.file.url }}" type="video/mp4">
+                        Your browser does not support HTML video.
+                    </video>
+                </div>
+
+                <div class="comments-section">
+                    <div class="bg-secondary p-4 mb-4">
+                        <strong>{{ video.title }}</strong><br><br>
+                    </div>
+                    <div class="bg-secondary p-4 comments-content">
+                        <strong style="color: #fca605">Comments</strong><br><br>
+                        {% for comment in comments %}
+                            <strong>User email : </strong>{{ comment.user_id }}<br>
+                            <p>{{ comment.content }}</p><br><br>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Courses End -->
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'course/base/base.html' %}
+{% load static %}
+<!-- Category Start -->
+
+{% block category_detail %}
+    <!-- Courses Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">Courses</h5>
+                <h1>Our Popular Courses</h1>
+            </div>
+            <div class="row">
+                {% for course in courses %}
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="rounded overflow-hidden mb-2">
+                            <a href="{% url 'course_detail' course.slug %}">
+                                <img class="img-fluid" src="{{ course.image.url }}">
+                            </a>
+                            <div class="bg-secondary p-4">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <small class="m-0"><i
+                                            class="fa fa-users text-primary mr-2"></i>{{ course.student_count }}
+                                        Students</small>
+                                    <small class="m-0"><i
+                                            class="far fa-clock text-primary mr-2"></i>{{ course.total_duration }}m</small>
+                                </div>
+                                <a class="h5" href="{% url 'course_detail' course.slug %}">{{ course.title }}</a>
+                                <p class="m-0">Total number of videos is: {{ course.total_video_count }}</p>
+                                <div class="border-top mt-4 pt-4">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="m-0">
+                                            <i class="fa fa-star text-primary mr-2"></i>
+                                            {{ course.average_rating }}<small>({{ course.comment_count }})</small>
+                                        </h6>
+                                        <h5 class="m-0">{{ course.price }} $ </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- Courses End -->
+{% endblock %}
