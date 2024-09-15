@@ -1,0 +1,101 @@
+{% extends 'course/base/base.html' %}
+{% load static %}
+
+{% block blog_detail_content %}
+    <!-- Header Start -->
+    <div class="container-fluid page-header" style="margin-bottom: 90px;">
+        <div class="container">
+            <div class="d-flex flex-column justify-content-center" style="min-height: 300px">
+                <h3 class="display-4 text-white text-uppercase">Blog</h3>
+                <div class="d-inline-flex text-white">
+                    <p class="m-0 text-uppercase"><a class="text-white" href="{% url 'home' %}">Home</a></p>
+                    <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                    <p class="m-0 text-uppercase">Blog</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+
+    <!-- Detail Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="row">
+                {% for blog in blogs %}
+                    <div class="col-lg-8">
+                        <div class="mb-5">
+                            <h6 class="text-primary mb-3">{{ blog.created_at }}</h6>
+                            <h1 class="mb-5">{{ blog.title }}</h1>
+                            <a href="{% url 'blog_detail' blog.id %}">
+                                <img class="img-fluid rounded w-100 mb-4" src="{{ blog.image.url }}" alt="Image">
+                            </a>
+                            <p>{{ blog.body }}</p>
+                        </div>
+
+
+                    </div>
+                {% endfor %}
+
+                <div class="col-lg-4 mt-5 mt-lg-0">
+
+                    <!-- Search Form -->
+                    <div class="mb-5">
+                        <form action="">
+                            <div class="input-group">
+                                <input type="text" class="form-control form-control-lg" placeholder="Keyword">
+                                <div class="input-group-append">
+                                    <span class="input-group-text bg-transparent text-primary"><i
+                                            class="fa fa-search"></i></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Category List -->
+                    <div class="mb-5">
+                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Categories</h3>
+                        <ul class="list-group list-group-flush">
+                            {% for category in categories %}
+
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                    <a href="{% url 'category_detail' category.id %}"
+                                       class="text-decoration-none h6 m-0">{{ category.title }}</a>
+                                    <span class="badge badge-primary badge-pill">{{ category.num_blogs }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Recent Post -->
+                    <div class="mb-5">
+                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Recent Post</h3>
+                        {% for blog in blogs %}
+                            <a class="d-flex align-items-center text-decoration-none mb-3" href="">
+                                <img class="img-fluid rounded" width="100" src="{{ blog.image.url }}" alt="">
+                                <div class="pl-3">
+                                    <h6 class="m-1">{{ blog.title }}</h6>
+                                    <small>{{ blog.created_at }}</small>
+                                </div>
+                            </a>
+                        {% endfor %}
+
+                    </div>
+
+                    <!-- Tag Cloud -->
+                    <div class="mb-5">
+                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Tag Cloud</h3>
+                        <div class="d-flex flex-wrap m-n1">
+                            {% for category in categories %}
+                                <a href="?filter={{ category.id }}"
+                                   class="btn btn-outline-primary m-1">{{ category.title }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Detail End -->
+
+{% endblock %}

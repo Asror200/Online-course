@@ -1,0 +1,41 @@
+{% extends 'course/base/base.html' %}
+{% load static %}
+{% block login_content %}
+    <div class="container">
+        <!-- Login Form -->
+        <div class="bg-secondary rounded p-5">
+            <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Login</h3>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" name="email" class="form-control border-0" id="email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password *</label>
+                    <input type="password" name="password" class="form-control border-0" id="password">
+                </div>
+                <div class="d-flex">
+                    <div class="form-group mb-0 mr-2">
+                        <input type="submit" value="Log in"
+                               class="btn btn-outline-primary py-md-2 px-md-4 font-weight-semi-bold">
+                    </div>
+                    <div class="form-group mb-0 mr-2">
+                        <a href="{% url 'social:begin' 'google-oauth2' %}">
+                            <input type="button" value="Log in using Google"
+                                   class="btn btn-outline-primary py-md-2 px-md-4 font-weight-semi-bold">
+                        </a>
+                    </div>
+                    <div class="form-group mb-0 mr-2">
+                        <a href="{% url 'register' %}">
+                            <input type="button" value="I don't have an account"
+                                   class="btn btn-outline-primary py-md-2 px-md-4 font-weight-semi-bold">
+                        </a>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}

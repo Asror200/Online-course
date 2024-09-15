@@ -1,0 +1,103 @@
+{% extends 'course/base/base.html' %}
+{% load static %}
+{% block courses_content %}
+    <!-- Courses Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">Courses</h5>
+                <h1>Our Popular Courses</h1>
+            </div>
+            <div class="row">
+                {% for course in courses %}
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="rounded overflow-hidden mb-2">
+                            <a href="{% url 'course_detail' course.slug %}">
+                                <img class="img-fluid" src="{{ course.image.url }}">
+                            </a>
+                            <div class="bg-secondary p-4">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <small class="m-0"><i class="fa fa-users text-primary mr-2"></i>
+                                        {{ course.student_count }} Students
+                                    </small>
+                                    <small class="m-0">
+                                        <i class="far fa-clock text-primary mr-2"></i>{{ course.total_duration }}
+                                        m</small>
+                                </div>
+                                <small class="h5">
+                                        <a href="{% url 'edit_course' course.id %}">edit course</a>
+
+                                </small><br>
+                                <a class="h5"
+                                   href="{% url 'course_detail' course.slug %}">{{ course.category_id }}</a><br>
+
+                                <a style="color: #1d2f42"
+                                   href="{% url 'course_detail' course.slug %}">{{ course.title }}</a>
+
+                                <div class="border-top mt-4 pt-4">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="m-0">
+                                            <i class="fa fa-star text-primary mr-2"></i>
+                                            {{ course.average_rating }}
+                                            <small>({{ course.comment_count }})</small>
+                                        </h6>
+                                        <h5 class="m-0">${{ course.price }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="card-footer d-flex align-items-center justify-content-center">
+
+        {% if courses.has_previous %}
+            <a class="btn btn-sm btn-falcon-default me-1" href="?page=1" title="First">
+                &laquo; First
+            </a>
+            <a class="btn btn-sm btn-falcon-default me-1" href="?page={{ courses.previous_page_number }}"
+               title="Previous">
+                <span class="fas fa-chevron-left"></span>
+            </a>
+        {% else %}
+            <span class="btn btn-sm btn-falcon-default me-1" title="First" disabled>
+                    &laquo; First
+                </span>
+            <span class="btn btn-sm btn-falcon-default me-1" title="Previous" disabled>
+                <span class="fas fa-chevron-left"></span>
+                </span>
+        {% endif %}
+
+        {% for num in courses.paginator.page_range %}
+            <ul class="pagination mb-0">
+                {% if courses.number == num %}
+                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                {% else %}
+                    <li class="page-item "><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+            </ul>
+        {% endfor %}
+
+        {% if courses.has_next %}
+            <a class="btn btn-sm btn-falcon-default ms-1" href="?page={{ courses.next_page_number }}"
+               title="Next">
+                <span class="fas fa-chevron-right"></span>
+            </a>
+            <a class="btn btn-sm btn-falcon-default ms-1" href="?page={{ courses.paginator.num_pages }}"
+               title="Last">
+                Last &raquo;
+            </a>
+        {% else %}
+            <span class="btn btn-sm btn-falcon-default ms-1" title="Next" disabled>
+                    <span class="fas fa-chevron-right"></span>
+                </span>
+            <span class="btn btn-sm btn-falcon-default ms-1" title="Last" disabled>
+                    Last &raquo;
+                </span>
+        {% endif %}
+    </div>
+
+    <!-- Courses End -->
+{% endblock %}

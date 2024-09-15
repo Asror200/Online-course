@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from course.models import Course, Customer, Comment, Category, Video
+from course.models import Course, Customer, Comment, Category, Video, Blog
 from course.admin_filter import JoinedDateFilter
 from django.contrib.auth.models import Group
 from import_export.admin import ImportExportModelAdmin
@@ -8,7 +8,7 @@ from import_export.admin import ImportExportModelAdmin
 # Register your models here.
 admin.site.unregister(Group)
 admin.site.register(Category)
-
+admin.site.register(Blog)
 
 @admin.register(Course)
 class ProductModelAdmin(ImportExportModelAdmin, admin.ModelAdmin):
