@@ -1,17 +1,13 @@
 import datetime
-import openpyxl
-import io
 import csv
 import json
 from django.core.serializers.json import DjangoJSONEncoder
-from django.db.models.fields.files import ImageFieldFile
-
+from django.db.models.fields.files import FieldFile
 from django.http import HttpResponse
 from django.forms.models import model_to_dict
-
 from typing import Optional
 from django.views import View
-from course.models import Category, Course, Customer, Comment, Video, Blog
+from course.models import Category, Course, Comment, Video, Blog
 from django.core.paginator import Paginator
 from django.views.generic import DetailView, ListView, TemplateView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render, redirect, get_object_or_404
@@ -19,6 +15,8 @@ from django.db.models import Count
 from user.models import Teacher
 from course.forms import CourseForm, BlogForm, VideoForm, CommentForm
 from django.urls import reverse_lazy
+from openpyxl import Workbook
+
 
 # Create your views here.
 """ this class displays the first page"""
@@ -264,8 +262,8 @@ class AboutView(TemplateView):
 
 class CustomJSONEncoder(DjangoJSONEncoder):
     def default(self, obj):
-        if isinstance(obj, ImageFieldFile):
-            return obj.url
+        if isinstance(obj, FieldFile):
+            return obj.url if obj else None
         return super().default(obj)
 
 
@@ -303,47 +301,35 @@ class ExportDataView(View):
 
     def export_json(self, date):
         response = HttpResponse(content_type='application/json')
-        customers = Video.objects.all()
+        videos = Video.objects.all()
         data = []
 
-        for customer in customers:
-            customer_dict = model_to_dict(customer)
-            if 'image_field' in customer_dict:
-                customer_dict['image_field'] = customer_dict['image_field'].url if customer_dict[
-                    'image_field'] else None
-            data.append(customer_dict)
+        for video in videos:
+            video_dict = model_to_dict(video)
+            if 'image_field' in video_dict:
+                video_dict['image_field'] = video_dict['image_field'].url if video_dict['image_field'] else None
+            data.append(video_dict)
 
         response.write(json.dumps(data, indent=4, cls=CustomJSONEncoder))
-        response['Content-Disposition'] = f'attachment; filename=customers-{date}.json'
+        response['Content-Disposition'] = f'attachment; filename=videos-{date}.json'
 
         return response
 
     def export_xlsx(self, date):
-        customers = Video.objects.all()
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = f'attachment; filename=videos-{date}.xlsx'
+
+        wb = Workbook()
+        ws = wb.active
+        ws.title = 'Videos'
+
         meta = Video._meta
         field_names = [field.name for field in meta.fields]
-        workbook = openpyxl.Workbook()
-        worksheet = workbook.active
-        worksheet.title = "Video"
-        worksheet.append(field_names)
-        for customer in customers:
-            row = []
-            for field in field_names:
-                value = getattr(customer, field)
-                if hasattr(value, 'url'):
-                    value = value.url
-                elif isinstance(value, datetime.datetime):
-                    if value.tzinfo is not None:
-                        value = value.replace(tzinfo=None)
-                    value = value.strftime('%Y-%m-%d %H:%M:%S')
-                elif isinstance(value, datetime.date):
-                    value = value.strftime('%Y-%m-%d')
-                row.append(value)
-            worksheet.append(row)
-        virtual_workbook = io.BytesIO()
-        workbook.save(virtual_workbook)
-        virtual_workbook.seek(0)
-        response = HttpResponse(content=virtual_workbook.read(),
-                                content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        response['Content-Disposition'] = f'attachment; filename=customers-{date}.xlsx'
+
+        ws.append(field_names)
+
+        for obj in Video.objects.all():
+            ws.append([str(getattr(obj, field)) for field in field_names])  # Convert to string
+
+        wb.save(response)
         return response

@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1,
+        "email": "asror@gmail.com",
+        "username": "Asror",
+        "image": "",
+        "date_of_birth": "None",
+        "is_active": "True",
+        "is_stuff": "True",
+        "is_superuser": "True"
+    }
+]

@@ -26,7 +26,7 @@
                                             class="far fa-clock text-primary mr-2"></i>{{ course.total_duration }}m</small>
                                 </div>
                                 <a class="h5" href="{% url 'course_detail' course.slug %}">{{ course.title }}</a>
-                                <p class="m-0">Total number of videos is: {{ course.total_video_count }}</p>
+                                <p class="m-0">Total number of videos is: {{ course.videos.count }}</p>
                                 <div class="border-top mt-4 pt-4">
                                     <div class="d-flex justify-content-between">
                                         <h6 class="m-0">

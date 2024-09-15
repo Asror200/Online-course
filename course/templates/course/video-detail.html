@@ -31,26 +31,26 @@
                                 {% for reply in comment.get_replies %}
                                     <p class="reply-item">
                                         <strong>{{ reply.user_id }}:</strong>
-                                        <p>{{ reply.content }}</p>
-                                        <small>{{ reply.created_at }}</small>
+                                    <p>{{ reply.content }}</p>
+                                    <small>{{ reply.created_at }}</small>
                                     </p>
                                 {% endfor %}
                             </ul>
 
                             <!-- Reply Form -->
                             <div class="d-flex">
-                            <h4>Reply</h4>
-                            <form method="post" class="reply-form">
-                                {% csrf_token %}
-                                <input type="hidden" name="parent" value="{{ comment.id }}">
-                                <div class="form-group">
-                                    <label for="id_content">Content:</label>
-                                    <textarea id="id_content" name="content" class="form-control" cols="50"
-                                              rows="1"></textarea>
-                                </div>
+                                <h4>Reply</h4>
+                                <form method="post" class="reply-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="parent" value="{{ comment.id }}">
+                                    <div class="form-group">
+                                        <label for="id_content">Content:</label>
+                                        <textarea id="id_content" name="content" class="form-control" cols="50"
+                                                  rows="1"></textarea>
+                                    </div>
 
-                                <button type="submit" class="btn btn-outline-primary">Reply</button>
-                            </form>
+                                    <button type="submit" class="btn btn-outline-primary">Reply</button>
+                                </form>
                             </div>
                         {% endfor %}
                     </div>
@@ -85,12 +85,28 @@
                     <button class="btn btn-primary" type="submit">Submit</button>
                 </form>
 
-            </div>
-        <div class="container-fluid py-5 d-flex">
-        <a class="btn btn-primary ml-30% py-2 px-4 d-none d-lg-block" href="{% url 'edite_video' video.id %}">Edite video</a>
-        <a class="btn btn-primary ml-2 py-2 px-4 d-none d-lg-block" href="{% url 'delete_video' video.id %}">Delete video</a>
-        </div>
 
+            </div>
+            <div class="container-fluid py-5 d-flex">
+                <a class="btn btn-primary ml-30% py-2 px-4 d-none d-lg-block" href="{% url 'edite_video' video.id %}">Edite
+                    video</a>
+                <a class="btn btn-primary ml-2 py-2 px-4 d-none d-lg-block" href="{% url 'delete_video' video.id %}">Delete
+                    video</a>
+
+                <form method="get" action="{% url 'export_data' %}">
+                    <select class="ml-2" id="format" name="format">
+                        <option value="none" selected>...</option>
+                        <option value="csv">CSV</option>
+                        <option value="json">JSON</option>
+                        <option value="xlsx">Excel</option>
+                    </select>
+                    <button class="btn btn-primary ml-2 py-2 px-4 d-none d-lg-block" type="submit"><span
+                            class="fas fa-external-link-alt"
+                            data-fa-transform="shrink-3 down-2"></span><span
+                            class="d-none d-sm-inline-block ms-1">Export</span>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
     <!-- Video End -->

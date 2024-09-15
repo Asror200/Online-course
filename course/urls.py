@@ -31,6 +31,9 @@ urlpatterns = [
     # Comment
     path('add-new-comment/<int:_id>/', views.AddNewVideoView.as_view(), name='add_new_comment'),
 
+    # import - export
+    path('video/export-data/', views.ExportDataView.as_view(), name='export_data'),
+
     # About
     path('about', views.AboutView.as_view(), name='about'),
 
