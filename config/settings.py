@@ -140,7 +140,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'user.User'
 
 SOCIAL_AUTH_USER_MODEL = 'user.User'
-
+LOGIN_REDIRECT_URL = 'home'
+LOGIN_URL = 'login'
 
 EMAIL_BACKEND = env('EMAIL_BACKEND')
 EMAIL_HOST = env('EMAIL_HOST')

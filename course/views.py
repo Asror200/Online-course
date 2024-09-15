@@ -16,7 +16,8 @@ from user.models import Teacher
 from course.forms import CourseForm, BlogForm, VideoForm, CommentForm
 from django.urls import reverse_lazy
 from openpyxl import Workbook
-
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 # Create your views here.
 """ this class displays the first page"""
@@ -82,6 +83,7 @@ class CourseListView(TemplateView):
         return context
 
 
+@method_decorator(login_required, name='dispatch')
 class CourseDetailView(View):
 
     def get(self, request, _slug: Optional[int] = None):
@@ -109,6 +111,7 @@ class AddNewCourseView(CreateView):
     template_name = 'course/add-new-course.html'
 
 
+@method_decorator(login_required, name='dispatch')
 class EditCourseView(UpdateView):
     model = Course
     form_class = CourseForm
@@ -182,6 +185,7 @@ class AddNewBlogView(CreateView):
     template_name = 'course/add-new-blog.html'
 
 
+@method_decorator(login_required, name='dispatch')
 class BlogUpdateView(UpdateView):
     model = Blog
     form_class = BlogForm
@@ -193,6 +197,7 @@ class BlogUpdateView(UpdateView):
         return obj
 
 
+@method_decorator(login_required, name='dispatch')
 class BlogDeleteView(DeleteView):
     model = Blog
     template_name = 'course/delete_confirm/delete-confirm-blog.html'
@@ -210,6 +215,7 @@ class AddNewVideoView(CreateView):
     template_name = 'course/add-new-video.html'
 
 
+@method_decorator(login_required, name='dispatch')
 class VideoUpdateView(UpdateView):
     model = Video
     form_class = VideoForm
@@ -221,6 +227,7 @@ class VideoUpdateView(UpdateView):
         return obj
 
 
+@method_decorator(login_required, name='dispatch')
 class VideoDeleteView(DeleteView):
     model = Video
     template_name = 'course/delete_confirm/delete-confirm-video.html'
