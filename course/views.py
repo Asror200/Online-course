@@ -28,7 +28,7 @@ class HomeListView(TemplateView):
 
     def get_context_data(self, **kwargs):
         categories = Category.objects.all()
-        courses = Course.objects.all()
+        courses = Course.objects.all().order_by('-created_at')
         teachers = Teacher.objects.all()
         blogs = Blog.objects.all().order_by('-created_at')[:6]
         for teacher in teachers:
