@@ -25,10 +25,10 @@ def pre_delete_customer(sender, instance, **kwargs):
         'id': instance.id,
         'title': instance.title,
         'description': instance.description,
-        'image': instance.image,
+        'image': str(instance.image.url),
         'price': instance.price,
-        'category_id': instance.category_id,
-        'teacher_id': instance.teacher_id,
+        'category_id': str(instance.category_id),
+        'teacher_id': str(instance.teacher_id),
         'slug': instance.slug,
     }
 
@@ -63,9 +63,9 @@ def pre_delete_customer(sender, instance, **kwargs):
     customer_data = {
         'id': instance.id,
         'title': instance.title,
-        'duration': instance.duration,
-        'file': instance.file,
-        'course_id': instance.course_id,
+        'duration': str(instance.duration),
+        'file': str(instance.file) if instance.file else None,
+        'course_id': str(instance.course_id),
 
     }
 
@@ -101,8 +101,8 @@ def pre_delete_customer(sender, instance, **kwargs):
         'id': instance.id,
         'rating': instance.rating,
         'content': instance.content,
-        'user_id': instance.user_id,
-        'video_id': instance.video_id,
+        'user_id': str(instance.user_id),
+        'video_id': str(instance.video_id),
 
     }
 
@@ -137,8 +137,8 @@ def pre_delete_customer(sender, instance, **kwargs):
     customer_data = {
         'id': instance.id,
         'phone': instance.phone,
-        'user_id': instance.user_id,
-        'course_id': instance.course_id,
+        'user_id': str(instance.user_id),
+        'course_id': str(instance.course_id),
 
     }
 
@@ -175,7 +175,7 @@ def pre_delete_customer(sender, instance, **kwargs):
         'title': instance.title,
         'content': instance.body,
         'image': str(instance.image.url),
-        'category_id': instance.category_id,
+        'category_id': str(instance.category_id),
 
     }
 

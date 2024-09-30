@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1,
+        "title": "python",
+        "description": "0 dan strong juniorgacha",
+        "image": "/media/images/photo_2024-06-24_22-34-04.jpg",
+        "price": 300.0,
+        "category_id": "Programming",
+        "teacher_id": "Jasur",
+        "slug": "python"
+    }
+]
